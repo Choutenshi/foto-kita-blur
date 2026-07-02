@@ -11,6 +11,6 @@ The second project of mine, it's inspired from a song with the same title. You j
 - ❌ Press Q to quit
 
 ## Installation
-pip install -r requirements.txt
+```pip install -r requirements.txt
 ## Run
-python src/main.py
+```python src/main.py
