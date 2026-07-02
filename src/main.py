@@ -1,8 +1,10 @@
 import cv2
 import blur
 from camera import Camera
+from gesture import GestureDetector
 
 camera = Camera()
+gesture = GestureDetector()
 
 blur_enabled = False
 while True:
@@ -10,8 +12,12 @@ while True:
 
     if frame is None:
         break
+    hand_detected = gesture.detect(frame)
 
-    if blur_enabled:
+    if hand_detected:
+        print("Hand detected!")
+
+    if blur_enabled or hand_detected:
         frame = blur.apply(frame)
 
     cv2.imshow("Foto Kita Blur", frame)
