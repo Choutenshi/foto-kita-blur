@@ -7,28 +7,31 @@ camera = Camera()
 gesture = GestureDetector()
 
 blur_enabled = False
-while True:
-    frame = camera.read()
 
-    if frame is None:
-        break
-    hand_detected = gesture.detect(frame)
+try:
+    while True:
+        frame = camera.read()
 
-    if hand_detected:
-        print("Hand detected!")
+        if frame is None:
+            break
 
-    if blur_enabled or hand_detected:
-        frame = blur.apply(frame)
+        peace_detected = gesture.detect(frame)
 
-    cv2.imshow("Foto Kita Blur", frame)
+        if peace_detected:
+            print("Peace sign detected!")
 
-    key = cv2.waitKey(1) & 0xFF
+        if blur_enabled or peace_detected:
+            frame = blur.apply(frame)
 
-    if key == ord("b"):
-        blur_enabled = not blur_enabled
-        print(f"Blur: {'ON' if blur_enabled else 'OFF'}")
+        cv2.imshow("Foto Kita Blur", frame)
 
-    if key == ord("q"):
-        break
+        key = cv2.waitKey(1) & 0xFF
 
-camera.release()
+        if key == ord("b"):
+            blur_enabled = not blur_enabled
+            print(f"Blur: {'ON' if blur_enabled else 'OFF'}")
+
+        if key == ord("q"):
+            break
+finally:
+    camera.release()
