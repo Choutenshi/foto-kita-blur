@@ -1,22 +1,28 @@
 import cv2
+import blur
+from camera import Camera
 
-print("Opening camera...")
+camera = Camera()
 
-cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
-
-print("Opened:", cap.isOpened())
-
+blur_enabled = False
 while True:
-    ret, frame = cap.read()
+    frame = camera.read()
 
-    if not ret:
-        print("Failed to read frame")
+    if frame is None:
         break
+
+    if blur_enabled:
+        frame = blur.apply(frame)
 
     cv2.imshow("Foto Kita Blur", frame)
 
-    if cv2.waitKey(1) & 0xFF == ord("q"):
+    key = cv2.waitKey(1) & 0xFF
+
+    if key == ord("b"):
+        blur_enabled = not blur_enabled
+        print(f"Blur: {'ON' if blur_enabled else 'OFF'}")
+
+    if key == ord("q"):
         break
 
-cap.release()
-cv2.destroyAllWindows()
+camera.release()
